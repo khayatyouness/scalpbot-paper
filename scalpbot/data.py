@@ -4,6 +4,7 @@
 Reutilise l'approche du bot d'alertes existant (100% stdlib, pas de yfinance
 qui est bloque depuis les IP datacenter).
 """
+import os
 import json
 import urllib.request
 from dataclasses import dataclass
@@ -37,8 +38,14 @@ def fetch_bars(symbol, interval="1m", rng=None):
     """Retourne (bars, live_price).
 
     bars : liste de Bar triee par ts croissant, valeurs completes uniquement.
-    live_price : dernier prix de marche (regularMarketPrice) ou None.
+    live_price : dernier prix de marche ou None.
+
+    Source selon DATA_SOURCE : "yahoo" (defaut) ou "oanda" (historique profond).
     """
+    if os.environ.get("DATA_SOURCE", "yahoo").lower() == "oanda":
+        from . import oanda
+        return oanda.fetch_bars(symbol, interval)
+
     rng = rng or _DEFAULT_RANGE.get(interval, "5d")
     url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
            f"?range={rng}&interval={interval}&includePrePost=false")

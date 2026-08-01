@@ -10,6 +10,7 @@ Exemples :
 """
 import argparse
 import json
+import os
 import sys
 
 from .config import Settings, INSTRUMENTS, PRESETS, apply_preset
@@ -28,6 +29,9 @@ def main(argv=None):
     b.add_argument("--interval", default=None)
     b.add_argument("--range", default=None, help="plage Yahoo (5d, 1mo, ...)")
     b.add_argument("--preset", default=None, choices=list(PRESETS))
+    b.add_argument("--source", default=None, choices=["yahoo", "oanda"],
+                   help="source de donnees (oanda = historique profond)")
+    b.add_argument("--years", type=float, default=None, help="annees d'historique (OANDA)")
     b.add_argument("--verbose", action="store_true")
 
     l = sub.add_parser("live", help="boucle paper trading temps reel")
@@ -40,12 +44,16 @@ def main(argv=None):
     o = sub.add_parser("optimize", help="grid-search des meilleurs parametres")
     o.add_argument("--symbol", default="GC=F", choices=list(INSTRUMENTS))
     o.add_argument("--strategy", default=None, choices=STRATS)
+    o.add_argument("--source", default=None, choices=["yahoo", "oanda"])
+    o.add_argument("--years", type=float, default=None)
     o.add_argument("--top", type=int, default=15)
 
     v = sub.add_parser("validate", help="validation hors-echantillon (holdout)")
     v.add_argument("--symbol", default="GC=F", choices=list(INSTRUMENTS))
     v.add_argument("--strategy", default=None, choices=STRATS)
     v.add_argument("--interval", default="15m")
+    v.add_argument("--source", default=None, choices=["yahoo", "oanda"])
+    v.add_argument("--years", type=float, default=None)
     v.add_argument("--split", type=float, default=0.65)
 
     n = sub.add_parser("init", help="initialise un etat paper vierge ancre a maintenant")
@@ -60,6 +68,11 @@ def main(argv=None):
     sub.add_parser("params", help="affiche la configuration effective")
 
     args = ap.parse_args(argv)
+    # source de donnees (OANDA = historique profond) via env, lue par data.py
+    if getattr(args, "source", None):
+        os.environ["DATA_SOURCE"] = args.source
+    if getattr(args, "years", None) is not None:
+        os.environ["OANDA_YEARS"] = str(args.years)
     cfg = Settings()
     if getattr(args, "strategy", None):
         cfg.strategy = args.strategy
@@ -112,4 +125,8 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except (RuntimeError, KeyError) as e:
+        print(f"Erreur: {e}", file=sys.stderr)
+        sys.exit(1)

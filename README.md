@@ -30,6 +30,25 @@ python -m scalpbot optimize --symbol GC=F          # cherche les meilleurs param
 python -m scalpbot validate --symbol GC=F --interval 15m   # test out-of-sample
 ```
 
+### Backtest sur plusieurs années (source OANDA)
+
+Yahoo plafonne l'intraday à ~1 mois (15m). Pour backtester sur **2-3 ans**,
+utilise l'API OANDA (compte **practice gratuit**) :
+
+1. Crée un compte démo sur [oanda.com](https://www.oanda.com), génère un
+   **token API** (Manage API Access).
+2. Exporte-le puis lance avec `--source oanda` :
+
+```bash
+export OANDA_TOKEN="ton_token"
+python -m scalpbot backtest --symbol GC=F --preset gold15m --source oanda --years 3
+python -m scalpbot validate --symbol GC=F --interval 15m --source oanda --years 3
+python -m scalpbot optimize --symbol GC=F --source oanda --years 3
+```
+
+Symboles mappés automatiquement (`GC=F`→`XAU_USD`, `BTC-USD`→`BTC_USD`).
+`OANDA_ENV=live` pour un compte réel (déconseillé pour du backtest).
+
 Boucle paper trading temps réel (avec la config validée) :
 
 ```bash
