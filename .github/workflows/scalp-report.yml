@@ -1,0 +1,27 @@
+name: scalp-report (resume quotidien)
+
+# Resume quotidien sur Telegram : equity, position ouverte, perf globale.
+# Lit l'etat commite par scalp-gold (ne modifie rien).
+
+on:
+  schedule:
+    - cron: "0 21 * * 1-5"        # 21h UTC (~23h Paris ete), jours de bourse
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    env:
+      SCALPBOT_STATE_DIR: state
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Envoi du resume Telegram
+        run: python -m scalpbot report --symbol GC=F --preset gold15m

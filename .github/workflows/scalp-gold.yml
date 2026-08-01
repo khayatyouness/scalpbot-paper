@@ -1,0 +1,58 @@
+name: scalp-gold (paper live)
+
+# Tick de trading paper GOLD (preset gold15m).
+# - S'execute toutes les 15 min (jours de bourse).
+# - 1er run : initialise un etat vierge a 10 000$ ancre a maintenant.
+# - Runs suivants : rattrape toutes les bougies cloturees depuis le dernier run
+#   (robuste au jitter du cron), envoie les trades sur Telegram, recommite l'etat.
+#
+# ⚠️  PAPER TRADING — aucun ordre reel n'est passe.
+
+on:
+  schedule:
+    - cron: "*/15 * * * 1-5"     # toutes les 15 min, lun-ven (UTC)
+  workflow_dispatch:              # lancement manuel possible
+
+# empeche deux runs simultanes de se marcher dessus sur l'etat
+concurrency:
+  group: scalp-gold
+  cancel-in-progress: false
+
+permissions:
+  contents: write                # pour recommiter l'etat
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    env:
+      SCALPBOT_STATE_DIR: state
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Init etat si absent (demarrage propre a 10 000$)
+        run: |
+          mkdir -p state
+          if [ ! -f state/state_GC_F.json ]; then
+            python -m scalpbot init --symbol GC=F --preset gold15m
+          fi
+
+      - name: Tick paper trading (rattrapage + notifs Telegram)
+        run: python -m scalpbot live --symbol GC=F --preset gold15m --once
+
+      - name: Recommit etat si change
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/
+          if git diff --cached --quiet; then
+            echo "Aucun changement d'etat."
+          else
+            git commit -m "chore(state): tick gold [skip ci]"
+            git push
+          fi
