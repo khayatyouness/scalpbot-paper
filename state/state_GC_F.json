@@ -1,0 +1,12 @@
+{
+  "equity": 10000.0,
+  "realized": 0.0,
+  "fees_paid": 0.0,
+  "position": null,
+  "trades": [],
+  "last_ts": 1785529800,
+  "cooldown": 0,
+  "guard_day": null,
+  "guard_start_equity": null,
+  "guard_locked": false
+}
