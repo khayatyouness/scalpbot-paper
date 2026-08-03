@@ -10,7 +10,7 @@
     "target": 4134.501956695957,
     "atr": 5.525513588051885,
     "opened_ts": 1785789000,
-    "opened_bars": 2,
+    "opened_bars": 7,
     "reason": "EMA9>EMA21, cassure 4112.00, RSI 68"
   },
   "trades": [
@@ -37,7 +37,7 @@
       "exit_reason": "signal-inverse"
     }
   ],
-  "last_ts": 1785794400,
+  "last_ts": 1785798900,
   "cooldown": 0,
   "guard_day": "2026-08-03",
   "guard_start_equity": 9941.605799927398,
