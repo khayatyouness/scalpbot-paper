@@ -60,9 +60,9 @@
       "exit_reason": "stop-loss"
     }
   ],
-  "last_ts": 1785873600,
+  "last_ts": 1785876300,
   "cooldown": 0,
   "guard_day": "2026-08-04",
-  "guard_start_equity": 9836.468950149578,
+  "guard_start_equity": 9785.965097836863,
   "guard_locked": false
 }
