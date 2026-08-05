@@ -1,18 +1,8 @@
 {
-  "equity": 9785.354827207957,
-  "realized": -214.64517279204208,
-  "fees_paid": 6.550276111611291,
-  "position": {
-    "side": "short",
-    "qty": 2.96,
-    "entry": 4123.4501953125,
-    "stop": 4140.189225538872,
-    "target": 4097.317746950304,
-    "atr": 6.595612090548875,
-    "opened_ts": 1785885300,
-    "opened_bars": 6,
-    "reason": "EMA9<EMA21, cassure 4125.50, RSI 38"
-  },
+  "equity": 9809.615564838303,
+  "realized": -190.38443516169542,
+  "fees_paid": 8.310175329017873,
+  "position": null,
   "trades": [
     {
       "side": "long",
@@ -68,9 +58,31 @@
       "opened_ts": 1785862800,
       "closed_ts": 1785869100,
       "exit_reason": "stop-loss"
+    },
+    {
+      "side": "short",
+      "qty": 2.96,
+      "entry": 4123.4501953125,
+      "exit": 4140.439225538872,
+      "pnl": -50.90031447544103,
+      "fees": 0.6127850053797531,
+      "opened_ts": 1785885300,
+      "closed_ts": 1785891600,
+      "exit_reason": "stop-loss"
+    },
+    {
+      "side": "long",
+      "qty": 2.75,
+      "entry": 4157.4501953125,
+      "exit": 4185.198619428069,
+      "pnl": 75.73270150764318,
+      "fees": 0.5754648101713595,
+      "opened_ts": 1785894300,
+      "closed_ts": 1785897000,
+      "exit_reason": "take-profit"
     }
   ],
-  "last_ts": 1785890700,
+  "last_ts": 1785903300,
   "cooldown": 0,
   "guard_day": "2026-08-05",
   "guard_start_equity": 9785.354827207957,
