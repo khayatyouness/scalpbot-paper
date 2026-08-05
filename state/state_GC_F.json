@@ -93,9 +93,9 @@
       "exit_reason": "take-profit"
     }
   ],
-  "last_ts": 1785940200,
+  "last_ts": 1785947400,
   "cooldown": 0,
   "guard_day": "2026-08-05",
-  "guard_start_equity": 9809.111510588304,
+  "guard_start_equity": 9885.796077414416,
   "guard_locked": false
 }
