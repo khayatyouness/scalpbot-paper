@@ -1,7 +1,7 @@
 {
-  "equity": 9834.65512113329,
-  "realized": -165.34487886671002,
-  "fees_paid": 10.188719773117327,
+  "equity": 9783.969070804604,
+  "realized": -216.03092919539563,
+  "fees_paid": 10.968872553346312,
   "position": null,
   "trades": [
     {
@@ -102,10 +102,21 @@
       "opened_ts": 1785976200,
       "closed_ts": 1785986100,
       "exit_reason": "stop-loss"
+    },
+    {
+      "side": "short",
+      "qty": 1.81,
+      "entry": 4296.4501953125,
+      "exit": 4324.022514400045,
+      "pnl": -50.297221586009854,
+      "fees": 0.3913240375532041,
+      "opened_ts": 1786021200,
+      "closed_ts": 1786023000,
+      "exit_reason": "stop-loss"
     }
   ],
-  "last_ts": 1786015800,
-  "cooldown": 0,
+  "last_ts": 1786023900,
+  "cooldown": 1,
   "guard_day": "2026-08-06",
   "guard_start_equity": 9834.65512113329,
   "guard_locked": false
